@@ -1,0 +1,12 @@
+1529647592163	Rename package 'com.bridgelabz.fundoonotes'
+1529651285571	Move file
+1529651991286	Move compilation unit
+1529658629057	Delete element
+1529658863493	Delete element
+1529660776569	Rename type 'HibernateUtil'
+1529664435355	Delete element
+1529664450216	Rename type 'HibernateUtility'
+1529670245722	Rename package 'com.bridgelabz.fundoonotes.user.controller'
+1529670260114	Rename package 'com.bridgelabz.fundoonotes.user.dao'
+1529670274929	Rename package 'com.bridgelabz.fundoonotes.user.model'
+1529670284729	Rename package 'com.bridgelabz.fundoonotes.user.services'

@@ -1,0 +1,22 @@
+package com.bridgelabz.fundoonotes.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bridgelabz.fundoonotes.model.User;
+
+public class UserServicesImpl implements UserServices{
+
+	@Autowired
+	UserServices userServices;
+	
+	@Override
+	public User register(User user) {
+		return null;
+	}
+
+	@Override
+	public User login(User user) {
+		return null;
+	}
+
+}

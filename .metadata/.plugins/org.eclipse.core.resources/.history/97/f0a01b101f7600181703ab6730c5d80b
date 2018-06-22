@@ -1,0 +1,9 @@
+# MySQL properties
+hibernate.driver=com.mysql.jdbc.Driver
+hibernate.url=jdbc:mysql://localhost:3306/fundoonotes
+hibernate.username=root
+hibernate.password=bridgeit
+
+# Hibernate properties
+hibernate.show_sql=true
+hibernate.hbm2ddl.auto=update

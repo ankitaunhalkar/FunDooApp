@@ -1,0 +1,2 @@
+INDEX VERSION 1.4+/home/bridgeit/eclipse-workspace/fundooApp/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2101941495.index
