@@ -1,8 +1,0 @@
-hibernate.connection.url=jdbc:mysql://localhost:3306/fundoonotes
-hibernate.connection.driver_class=com.mysql.jdbc.Driver
-hibernate.connection.username=root
-hibernate.connection.password=bridgeit
-
-# Hibernate properties
-hibernate.show_sql=true
-hibernate.hbm2ddl.auto=update

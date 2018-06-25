@@ -1,0 +1,9 @@
+package com.bridgelabz.fundoonotes.services;
+
+import com.bridgelabz.fundoonotes.model.User;
+
+public interface UserServices {
+
+	Integer register(User user);
+	User login(User user);
+}

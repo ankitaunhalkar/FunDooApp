@@ -1,0 +1,45 @@
+package com.bridgelabz.fundoonotes.services;
+
+import javax.transaction.Transactional;
+
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.dao.IUserDao;
+import com.bridgelabz.fundoonotes.model.User;
+
+@Service
+public class UserServiceImpl implements IUserService {
+
+	@Autowired
+	IUserDao userDao;
+
+	@Override
+	@Transactional
+	public Integer register(User user) {
+
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+		int registerStatus = 0;
+		User userRegister = userDao.getByEmail(user.getEmail());
+		if (userRegister != null) {
+			return registerStatus;
+		}
+		return registerStatus = userDao.register(user);
+	}
+
+	@Override
+	@Transactional
+	public User login(User user) {
+		User loginStatus = null;
+
+		loginStatus = userDao.getByEmail(user.getEmail());
+		
+		if ((loginStatus != null) && (loginStatus.getPassword().equals(user.getPassword()))) {
+			return loginStatus;
+		}
+
+		return loginStatus;
+	}
+
+}

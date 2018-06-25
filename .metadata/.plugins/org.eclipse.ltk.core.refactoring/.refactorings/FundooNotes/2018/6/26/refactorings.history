@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;com.bridgelabz.fundoonotes.dao.IUserDao.register(...)&apos; to &apos;save&apos;&#x0A;- Original project: &apos;FundooNotes&apos;&#x0A;- Original element: &apos;com.bridgelabz.fundoonotes.dao.IUserDao.register(...)&apos;&#x0A;- Renamed element: &apos;com.bridgelabz.fundoonotes.dao.IUserDao.save(...)&apos;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;register&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src\/main\/java&lt;com.bridgelabz.fundoonotes.dao{IUserDao.java[IUserDao~register~QUser;" name="save" references="true" stamp="1529910055778" version="1.0"/>
+</session>
