@@ -1,0 +1,18 @@
+package com.bridgelabz.fundoonotes.user.messaging;
+
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
+
+import com.bridgelabz.fundoonotes.user.model.Email;
+
+@Component
+public class MailReceiver {
+
+	@JmsListener(destination = "email-queue")
+	public void receiveMail(Email emailObj) {
+		System.out.println(emailObj.getName());
+		System.out.println(emailObj.getEmailId());
+		System.out.println(emailObj.getToken());
+		
+	}
+}

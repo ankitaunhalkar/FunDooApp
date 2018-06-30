@@ -1,0 +1,6 @@
+package com.bridgelabz.fundoonotes.user.model;
+
+public class LoginDto {
+
+	
+}

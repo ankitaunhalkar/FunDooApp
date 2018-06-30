@@ -1,0 +1,5 @@
+package com.bridgelabz.fundoonotes.user.configuration;
+
+public class MessagingConfiguration {
+
+}

@@ -1,0 +1,13 @@
+package com.bridgelabz.fundoonotes.user.messaging;
+
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MailReceiver {
+
+	@JmsListener(destination = "email-queue")
+	public void receiveMail() {
+		
+	}
+}

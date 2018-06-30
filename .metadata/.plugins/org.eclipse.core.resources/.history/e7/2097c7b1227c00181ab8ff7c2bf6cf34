@@ -1,0 +1,74 @@
+package com.bridgelabz.fundoonotes.user.messaging;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
+
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.user.model.Email;
+
+@Service
+public class MailReceiver implements MessageListener {
+	@Autowired
+	JmsTemplate jmsTemplate;
+	@JmsListener(destination = "email-queue", containerFactory="jmsListenerContainerFactory")
+/*	public void receiveMail(Email emailObj) {
+		
+
+		System.out.println(((Email) emailObj).getName());
+		System.out.println(((Email) emailObj).getEmailId());
+		System.out.println(((Email) emailObj).getToken());
+
+		emailObj = (Message<Email>) jmsTemplate.receiveAndConvert();
+		System.out.println(((Email) emailObj).getEmailId());
+		MessageHeaders headers = emailObj.getHeaders();
+		System.out.println("Application : headers received : {}" + headers);
+
+		Email response = emailObj.getPayload();
+		System.out.println("Application : response received : {}" + response);
+
+	}
+	 receiving method*/ 
+   /* public void onMessage(Message<Email> message) { 
+ 
+        if (message instanceof ObjectMessage) { 
+                System.out.println("recevied a Object Message"); 
+                ObjectMessage msg = (ObjectMessage)message; 
+                Email obj;
+				try {
+					obj = (Email)msg.getObject();
+					System.out.println("info: "); 
+	                System.out.println("key: "+obj.getEmailId()); 
+	                System.out.println("value: "+obj.getName()); 
+				} catch (JMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+                
+        } 
+    }*/
+	@Override
+	public void onMessage(Message message) {
+	
+		   if (message instanceof ObjectMessage) { 
+               System.out.println("recevied a Object Message"); 
+               ObjectMessage msg = (ObjectMessage)message; 
+               Email obj;
+				try {
+					obj = (Email)msg.getObject();
+					System.out.println("info: "); 
+	                System.out.println("key: "+obj.getEmailId()); 
+	                System.out.println("value: "+obj.getName()); 
+				} catch (JMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+	} 
+	}
+}
