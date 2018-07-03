@@ -1,0 +1,181 @@
+package com.bridgelabz.fundoonotes.user.services;
+
+import javax.transaction.Transactional;
+
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.user.dao.IUserDao;
+import com.bridgelabz.fundoonotes.user.dao.TokenDao;
+import com.bridgelabz.fundoonotes.user.model.Mail;
+import com.bridgelabz.fundoonotes.user.model.LoginDto;
+import com.bridgelabz.fundoonotes.user.model.RegisterDto;
+import com.bridgelabz.fundoonotes.user.model.ResetPasswordDto;
+import com.bridgelabz.fundoonotes.user.model.User;
+import com.bridgelabz.fundoonotes.user.util.MailProducer;
+import com.bridgelabz.fundoonotes.user.util.TokenUtil;
+
+@Service
+public class UserServiceImpl implements IUserService {
+
+	@Autowired
+	IUserDao userDao;
+
+	@Autowired
+	User user;
+
+	@Autowired
+	MailProducer mailSender;
+
+	@Autowired
+	Mail email;
+
+	@Autowired
+	TokenDao tokenDao;
+
+	@Override
+	@Transactional
+	public long register(RegisterDto registrationUser, String url) {
+
+		long registeredId = 0;
+
+		// checking if mail id is already exists or not
+		User registerDaoStatus = userDao.getByEmail(registrationUser.getEmail());
+
+		if (registerDaoStatus != null) {
+
+			return registeredId;
+
+		}
+
+		// setting into user model
+		user.setName(registrationUser.getName());
+		user.setEmail(registrationUser.getEmail());
+		user.setPassword(registrationUser.getPassword());
+
+		// password encrypting
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
+		// if not existing then save
+		registeredId = userDao.save(user);
+
+		// token generating
+		String token = TokenUtil.createJWT(registeredId + "", "Ankita", "Verification", 24 * 3600 * 1000);
+
+		// setting to email model
+		email.setName(registrationUser.getName());
+		email.setTo(registrationUser.getEmail());
+		email.setSubject("Fundoo Verfication");
+		email.setBody(url+token);;
+
+		// mail sending
+		mailSender.sendMail(email);
+
+		// setting into redis cache
+		tokenDao.setToken(registeredId + "", token);
+
+		return registeredId;
+	}
+
+	@Override
+	@Transactional
+	public boolean login(LoginDto loginUser) {
+
+		boolean status = false;
+
+		// checking if mail id exists or not
+		User loginDaoStatus = userDao.getByEmail(loginUser.getEmail());
+
+		// if exists then matching the password
+		if ((loginDaoStatus != null) && (loginDaoStatus.isVerified() == true)
+				&& (BCrypt.checkpw(loginUser.getPassword(), loginDaoStatus.getPassword()))) {
+
+			return status = true;
+		}
+
+		return status;
+	}
+
+	@Override
+	@Transactional
+	public boolean verify(String token) {
+		
+		boolean status = false;
+		// Decoding token and validating
+		long id = TokenUtil.parseJWT(token);
+
+		String redisToken = tokenDao.getToken(id + "");
+
+		if (token.equals(redisToken)) {
+			// Fetching user by id
+			User user = userDao.getById(id);
+
+			// Setting isVerified value to true
+			user.setVerified(true);
+
+			// Updating isVerified value in db
+			userDao.update(user);
+
+			tokenDao.deleteToken(id + "");
+			
+			return status = true;
+		}
+		return status;
+	}
+
+	@Override
+	@Transactional
+	public void forgotPassword(ResetPasswordDto userDto, String url) {
+
+		// Fetching user by emailId
+		User user = userDao.getByEmail(userDto.getEmailId());
+
+		// generating new token
+		String token = TokenUtil.createJWT(user.getId() + "", "Ankita", "Verification", 24 * 3600 * 1000);
+
+		// setting to email model
+		
+		email.setName(user.getName());
+		email.setTo(user.getEmail());
+		email.setSubject("Reset Password Verification");
+		email.setBody(url+token);
+
+		// mail sending
+		mailSender.sendMail(email);
+
+		tokenDao.setToken(user.getId() + "", token);
+
+	}
+
+	@Override
+	@Transactional
+	public boolean resetPassword(ResetPasswordDto userDto, String token) {
+
+		boolean status = false;
+
+		// decoding token and validating
+		long id = TokenUtil.parseJWT(token);
+
+		String redisToken = tokenDao.getToken(id + "");
+
+		// checking if it is a verified account or not
+		// and matching token and than reseting password 
+		if (token.equals(redisToken) && user.isVerified()) {
+			
+			// getting user by id
+			User user = userDao.getById(id);
+
+			// encrypting new password and setting it
+			user.setPassword(BCrypt.hashpw(userDto.getNewPassword(), BCrypt.gensalt()));
+
+			// Updating new password in db
+			status = userDao.update(user);
+
+			tokenDao.deleteToken(id + "");
+
+		}
+		return status;
+	}
+
+}

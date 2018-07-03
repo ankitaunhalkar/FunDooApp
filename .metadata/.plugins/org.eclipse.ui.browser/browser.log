@@ -150,3 +150,86 @@ Jun 30, 2018 12:40:15.66 Created new window in existing browser session.
 Jun 30, 2018 13:20:12.34 ATTENTION: default value of option force_s3tc_enable overridden by environment.
 Jun 30, 2018 13:20:19.81 Created new window in existing browser session.
 Jun 30, 2018 13:22:10.83 Created new window in existing browser session.
+Jun 30, 2018 13:31:16.41 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 13:31:17.15 Created new window in existing browser session.
+Jun 30, 2018 14:36:57.44 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 14:37:04.62 Created new window in existing browser session.
+Jun 30, 2018 14:43:34.03 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 14:43:35.53 Created new window in existing browser session.
+Jun 30, 2018 18:13:28.58 Created new window in existing browser session.
+Jun 30, 2018 18:15:36.18 Created new window in existing browser session.
+Jun 30, 2018 18:22:43.21 Created new window in existing browser session.
+Jun 30, 2018 18:28:21.88 Created new window in existing browser session.
+Jun 30, 2018 18:30:46.44 Created new window in existing browser session.
+Jun 30, 2018 18:58:41.01 Created new window in existing browser session.
+Jun 30, 2018 19:04:19.66 Created new window in existing browser session.
+Jun 30, 2018 19:05:20.52 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 19:05:20.63 Created new window in existing browser session.
+Jun 30, 2018 19:06:42.36 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 19:06:42.52 Created new window in existing browser session.
+Jun 30, 2018 19:32:53.53 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jun 30, 2018 19:32:54.03 Created new window in existing browser session.
+
+Jul 01, 2018 11:31:38.50 NEW SESSION
+Jul 01, 2018 11:31:38.50 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 01, 2018 11:31:38.79 Created new window in existing browser session.
+Jul 01, 2018 11:45:21.86 Created new window in existing browser session.
+Jul 01, 2018 11:49:04.88 Created new window in existing browser session.
+Jul 01, 2018 11:55:15.89 Created new window in existing browser session.
+Jul 01, 2018 12:30:04.54 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 01, 2018 12:30:04.62 Created new window in existing browser session.
+Jul 01, 2018 12:48:43.16 Created new window in existing browser session.
+Jul 01, 2018 14:29:54.27 Created new window in existing browser session.
+Jul 01, 2018 18:10:01.46 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 01, 2018 18:10:03.16 Created new window in existing browser session.
+Jul 01, 2018 18:14:59.72 Created new window in existing browser session.
+Jul 01, 2018 18:47:40.44 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 01, 2018 18:47:42.05 Created new window in existing browser session.
+Jul 01, 2018 18:49:48.98 Created new window in existing browser session.
+Jul 01, 2018 18:52:06.28 Created new window in existing browser session.
+Jul 01, 2018 18:54:02.63 Created new window in existing browser session.
+
+Jul 02, 2018 10:43:44.85 NEW SESSION
+Jul 02, 2018 10:43:44.85 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 02, 2018 12:48:52.33 [3854:7957:0702/124852.336396:ERROR:cert_verify_proc_nss.cc(980)] CERT_PKIXVerifyCert for eicm-global.dsp.io failed err=-8181
+Jul 02, 2018 15:22:40.99 [3854:18637:0702/152240.995674:ERROR:cert_verify_proc_nss.cc(980)] CERT_PKIXVerifyCert for eicm-global.dsp.io failed err=-8181
+Jul 02, 2018 15:43:44.29 [3854:3958:0702/154344.298886:ERROR:ssl_client_socket_impl.cc(1026)] handshake failed; returned -1, SSL error code 1, net_error -101
+Jul 02, 2018 17:55:40.15 [1:16:0702/175540.153675:ERROR:adm_helpers.cc(73)] Failed to query stereo recording.
+Jul 02, 2018 17:55:48.17 [1:17:0702/175548.175460:ERROR:adm_helpers.cc(73)] Failed to query stereo recording.
+Jul 02, 2018 19:35:00.13 [1:102:0702/193500.134054:ERROR:adm_helpers.cc(73)] Failed to query stereo recording.
+Jul 02, 2018 19:39:31.98 [3854:3958:0702/193931.985698:ERROR:ssl_client_socket_impl.cc(1026)] handshake failed; returned -1, SSL error code 1, net_error -101
+Jul 02, 2018 19:41:33.00 [3854:3854:0702/194133.009345:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 101 is too big.
+Jul 02, 2018 19:41:35.48 [3854:3854:0702/194135.484788:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 101 is too big.
+Jul 02, 2018 19:41:36.33 [3854:3854:0702/194136.338149:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:38.86 [3854:3854:0702/194138.863114:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:41.37 [3854:3854:0702/194141.372399:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:42.22 [3854:3854:0702/194142.225568:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:44.75 [3854:3854:0702/194144.750276:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:45.60 [3854:3854:0702/194145.602919:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:48.26 [3854:3854:0702/194148.262333:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+Jul 02, 2018 19:41:49.11 [3854:3854:0702/194149.115372:ERROR:latency_info.cc(164)] Surface::TakeLatencyInfoFromFrame, LatencyInfo vector size 102 is too big.
+
+Jul 03, 2018 11:53:51.10 NEW SESSION
+Jul 03, 2018 11:53:51.10 Created new window in existing browser session.
+Jul 03, 2018 12:05:37.90 Created new window in existing browser session.
+Jul 03, 2018 12:11:46.45 Created new window in existing browser session.
+Jul 03, 2018 12:15:39.84 Created new window in existing browser session.
+Jul 03, 2018 12:19:27.12 Created new window in existing browser session.
+Jul 03, 2018 12:24:59.97 Created new window in existing browser session.
+Jul 03, 2018 12:26:28.83 Created new window in existing browser session.
+Jul 03, 2018 12:31:18.05 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 03, 2018 12:31:18.15 Created new window in existing browser session.
+Jul 03, 2018 12:33:14.80 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 03, 2018 12:33:14.92 Created new window in existing browser session.
+Jul 03, 2018 12:38:44.71 Created new window in existing browser session.
+Jul 03, 2018 12:42:47.34 Created new window in existing browser session.
+Jul 03, 2018 12:48:06.54 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 03, 2018 12:48:06.70 Created new window in existing browser session.
+Jul 03, 2018 12:51:13.13 Created new window in existing browser session.
+
+Jul 03, 2018 15:38:15.77 NEW SESSION
+Jul 03, 2018 15:38:15.77 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 03, 2018 15:38:15.89 Created new window in existing browser session.
+Jul 03, 2018 16:45:16.40 Created new window in existing browser session.
+Jul 03, 2018 18:17:24.30 ATTENTION: default value of option force_s3tc_enable overridden by environment.
+Jul 03, 2018 18:17:24.42 Created new window in existing browser session.

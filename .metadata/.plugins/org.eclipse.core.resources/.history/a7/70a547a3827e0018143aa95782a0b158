@@ -1,0 +1,28 @@
+package com.bridgelabz.fundoonotes.user.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class TokenDao {
+
+	@Autowired
+	private StringRedisTemplate redisTemplate;
+
+	public void addUserName(String key, String uname) {
+		redisTemplate.opsForValue().setIfAbsent(key, uname);
+	}
+
+	public void updateUserName(String key, String uname) {
+		redisTemplate.opsForValue().set(key, uname);
+	}
+
+	public String getUserName(String key) {
+		return redisTemplate.opsForValue().get(key);
+	}
+
+	public void deleteUser(String key) {
+		redisTemplate.delete(key);
+	}
+}

@@ -1,0 +1,10 @@
+package com.bridgelabz.fundoonotes.user.model;
+
+public class ResetPasswordDto {
+
+	private String newPassword;
+	
+	private String confirmPassword;
+	
+	
+}

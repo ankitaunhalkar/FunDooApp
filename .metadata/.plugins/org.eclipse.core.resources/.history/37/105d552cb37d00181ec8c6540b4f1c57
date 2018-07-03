@@ -1,0 +1,33 @@
+package com.bridgelabz.fundoonotes.user.model;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+public class ResetPasswordDto {
+
+	@Email
+	private String emailId;
+	
+	@Size(min=6)
+	private String newPassword;
+	
+	@Size(min=6)
+	private String confirmPassword;
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	
+}

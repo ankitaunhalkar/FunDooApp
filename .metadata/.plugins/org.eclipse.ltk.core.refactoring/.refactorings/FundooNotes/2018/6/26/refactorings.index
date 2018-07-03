@@ -11,3 +11,6 @@
 1530085230512	Rename local variable 'userRegister'
 1530085254554	Rename local variable 'registerStatus'
 1530265882204	Rename field 'ORDER_QUEUE'
+1530359692467	Rename package 'com.bridgelabz.fundoonotes.user.messaging'
+1530359737121	Rename type 'MailReceiver'
+1530359757369	Rename type 'MailSender'

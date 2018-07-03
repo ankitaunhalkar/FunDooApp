@@ -1,0 +1,38 @@
+package com.bridgelabz.fundoonotes.user.util;
+
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.user.model.Email;
+
+@Service
+public class MailConsumer  {
+
+	@Autowired
+	JavaMailSender emailSender;
+	
+	@JmsListener(destination = "email-queue")
+	public void receiveMail(final Email emailObj) {
+		
+		System.out.println(emailObj.getName());
+		System.out.println(emailObj.getEmailId());
+		
+		final MimeMessagePreparator message = new MimeMessagePreparator() {
+			
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				
+				/*mimeMessage.setReplyTo(emailObj.getEmailId());
+				message.setSubject("FundoNotes Verification");
+				message.setText("Dear "+emailObj.getName()+",\n"+emailObj.getUrl()+emailObj.getToken());*/
+			}
+		};
+		
+		emailSender.send(message);
+	}	
+}

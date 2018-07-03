@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -16,7 +17,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@Column
 	@Size(min=2,max=45)
@@ -31,13 +32,18 @@ public class User {
 	private String password;
 
 	@Column
-	private boolean isVerified;
+	@Size(min=10, max=10)
+	@Pattern(regexp="(^$|[0-9]{10})")
+	private String phone;
 	
-	public int getId() {
+	@Column
+	private boolean isVerified = false;
+	
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -71,6 +77,14 @@ public class User {
 
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 }
