@@ -1,0 +1,85 @@
+package com.bridgelabz.fundoonotes.note.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.note.dao.INoteDao;
+import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
+import com.bridgelabz.fundoonotes.note.model.Note;
+import com.bridgelabz.fundoonotes.note.model.ResponseDto;
+import com.bridgelabz.fundoonotes.user.dao.IUserDao;
+import com.bridgelabz.fundoonotes.user.model.User;
+import com.bridgelabz.fundoonotes.user.util.TokenUtil;
+
+@Service
+public class NoteService implements INoteService {
+
+	@Autowired
+	IUserDao userDao;
+
+	@Autowired
+	INoteDao noteDao;
+
+	@Transactional
+	@Override
+	public ResponseDto createNote(CreateNoteDto createNote, String token) {
+
+		long userId = TokenUtil.parseJWT(token);
+
+		//Creating a new note
+		Note note = new Note(createNote);
+
+		note.setUser(userDao.getById(userId));
+
+		long noteId = noteDao.saveNote(note);
+
+		Note createdNote = noteDao.getById(noteId);
+		
+		ResponseDto responseNote = new ResponseDto(createdNote);
+
+		return responseNote;
+	}
+
+	@Transactional
+	@Override
+	public List<ResponseDto> getNotes(String token) {
+
+		List<Note> noteDaoList = null;
+
+		List<ResponseDto> noteList = new ArrayList<ResponseDto>();
+
+		long userId = TokenUtil.parseJWT(token);
+
+		User user = userDao.getById(userId);
+
+		noteDaoList = noteDao.getAllNotes(user);
+
+		for (Note note : noteDaoList) {
+			
+			ResponseDto notes = new ResponseDto(note);
+			
+			noteList.add(notes);
+			
+		}
+
+		return noteList;
+	}
+
+	@Override
+	public Note updateNote(String token, CreateNoteDto updateNote) {
+
+		long noteId = 0;
+
+		Note note = new Note(updateNote);
+
+		noteId = noteDao.updateNote(note);
+
+		return null;
+	}
+
+}

@@ -1,0 +1,20 @@
+package com.bridgelabz.fundoonotes.note.model;
+
+import java.util.Date;
+
+public class CreateNoteDto {
+		
+	private String title;
+	
+	private String description;
+	
+	private Date created_date;
+	
+	private String color;
+	
+	private boolean archive = false;
+
+	private boolean trash = false;
+	
+	private boolean pin = false;
+}

@@ -9,7 +9,7 @@ import com.bridgelabz.fundoonotes.user.model.ResetPasswordDto;
 public interface IUserService {
 
 	long register(RegisterDto user, String url);
-	boolean login(LoginDto user);
+	String login(LoginDto user);
 	boolean verify(String token);
 	void forgotPassword(ResetPasswordDto userDto, String url);
 	boolean resetPassword(ResetPasswordDto userPassword, String token);

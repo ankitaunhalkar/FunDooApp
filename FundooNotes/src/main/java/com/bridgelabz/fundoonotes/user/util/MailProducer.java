@@ -18,7 +18,7 @@ public class MailProducer {
 	@Autowired
 	JmsTemplate jmsTemplate;
 	
-	public void sendMail( final Mail email) {
+	public void sendMail( final Mail email ) {
 
 		jmsTemplate.send(new MessageCreator() {
 			

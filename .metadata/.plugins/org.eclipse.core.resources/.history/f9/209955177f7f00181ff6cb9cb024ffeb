@@ -1,0 +1,14 @@
+package com.bridgelabz.fundoonotes.note.services;
+
+import java.util.List;
+
+import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
+import com.bridgelabz.fundoonotes.note.model.Note;
+
+public interface INoteService {
+
+	long createNote(CreateNoteDto note, String token);
+
+	List<Note> getNotes();
+	
+}

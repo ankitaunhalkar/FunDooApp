@@ -18,5 +18,6 @@ public class MailConsumer {
 	public void receiveMail(final Mail mailObj) {
 
 		userService.mailSender(mailObj);
+		
 	}
 }

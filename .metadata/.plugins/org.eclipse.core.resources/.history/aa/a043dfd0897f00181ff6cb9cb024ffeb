@@ -1,0 +1,13 @@
+package com.bridgelabz.fundoonotes.note.dao;
+
+import java.util.List;
+
+import com.bridgelabz.fundoonotes.note.model.Note;
+
+public interface INoteDao {
+	
+	long saveNote(Note note);
+
+	List<Note> getById(long userId);
+
+}

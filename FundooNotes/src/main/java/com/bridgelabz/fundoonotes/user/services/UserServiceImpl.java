@@ -88,10 +88,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public boolean login(LoginDto loginUser) {
+	public String login(LoginDto loginUser) {
 
-		boolean status = false;
-
+		String token = null;
+		
 		// checking if mail id exists or not
 		User loggedUser = userDao.getByEmail(loginUser.getEmail());
 
@@ -99,12 +99,11 @@ public class UserServiceImpl implements IUserService {
 		if ((loggedUser != null) && (loggedUser.isVerified() == true)
 				&& (BCrypt.checkpw(loginUser.getPassword(), loggedUser.getPassword()))) {
 
-			TokenUtil.createJWT(String.valueOf(loggedUser.getId()), loggedUser.getName(), "Login", 24 * 3600 * 1000);
+			token = TokenUtil.createJWT(String.valueOf(loggedUser.getId()), loggedUser.getName(), "Login", 24 * 3600 * 1000);
 			
-			return status = true;
 		}
 
-		return status;
+		return token;
 	}
 
 	@Override
@@ -135,6 +134,7 @@ public class UserServiceImpl implements IUserService {
 
 			return status = true;
 		}
+		
 		return status;
 	}
 
@@ -157,7 +157,7 @@ public class UserServiceImpl implements IUserService {
 		// mail sending
 		mailProducer.sendMail(mail);
 
-		tokenDao.setToken(user.getId() + "", token);
+		tokenDao.setToken(String.valueOf(user.getId()), token);
 
 	}
 
@@ -170,7 +170,7 @@ public class UserServiceImpl implements IUserService {
 		// decoding token and validating
 		long id = TokenUtil.parseJWT(token);
 
-		String redisToken = tokenDao.getToken(id + "");
+		String redisToken = tokenDao.getToken(String.valueOf(id));
 
 		// getting user by id
 		User user = userDao.getById(id);
@@ -185,13 +185,14 @@ public class UserServiceImpl implements IUserService {
 			// Updating new password in db
 			status = userDao.update(user);
 
-			tokenDao.deleteToken(id + "");
+			tokenDao.deleteToken(String.valueOf(id));
 
 		}
 		return status;
 	}
 
 	@Override
+	@Transactional
 	public void mailSender(final Mail mailObj) {
 		
 		final MimeMessagePreparator message = new MimeMessagePreparator() {

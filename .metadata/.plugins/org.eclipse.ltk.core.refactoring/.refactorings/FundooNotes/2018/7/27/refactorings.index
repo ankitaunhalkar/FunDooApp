@@ -19,3 +19,10 @@
 1530619087502	Rename type 'TokenDao'
 1530623088068	Rename field 'email'
 1530623094885	Rename field 'emailSender'
+1530699814136	Rename package 'com.bridgelabz.fundoonotes.user.configuration'
+1530704862874	Infer generic type arguments
+1530709262009	Rename field 'uid'
+1530770107817	Rename local variable 'allNotes'
+1530770169675	Rename local variable 'noteList'
+1530774680180	Rename local variable 'updatingnote'
+1530775704606	Rename local variable 'id'

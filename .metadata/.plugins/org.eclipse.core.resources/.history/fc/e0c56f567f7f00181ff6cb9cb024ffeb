@@ -1,0 +1,11 @@
+package com.bridgelabz.fundoonotes.note.dao;
+
+import com.bridgelabz.fundoonotes.note.model.Note;
+
+public interface INoteDao {
+	
+	long saveNote(Note note);
+
+	void getById(long userId);
+
+}

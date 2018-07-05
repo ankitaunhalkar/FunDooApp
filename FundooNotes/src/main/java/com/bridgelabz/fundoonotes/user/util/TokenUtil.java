@@ -23,8 +23,7 @@ public class TokenUtil {
 	 
 	    //We will sign our JWT with our ApiKey secret
 	    byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(apikey);
-	    System.out.println(apiKeySecretBytes);
-	    System.out.println( signatureAlgorithm.getJcaName());
+	    
 	    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 	    
 	    //Let's set the JWT Claims
@@ -44,7 +43,7 @@ public class TokenUtil {
 	    //Builds the JWT and serializes it to a compact, URL-safe string
    String tok = builder.compact();
    System.out.println(tok);
-   parseJWT(tok);
+  
 	    return builder.compact();
 	}
 		 

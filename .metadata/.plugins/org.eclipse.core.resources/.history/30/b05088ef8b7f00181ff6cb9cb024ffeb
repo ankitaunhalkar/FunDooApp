@@ -1,0 +1,5 @@
+package com.bridgelabz.fundoonotes.note.model;
+
+public class UpdateNoteDto {
+
+}

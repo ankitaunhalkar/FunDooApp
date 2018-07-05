@@ -37,9 +37,7 @@ public class UserDaoImpl implements IUserDao {
 	
 	@Override
 	public boolean update(User user) {
-		
-		System.out.println(user.getId());
-		
+			
 		sessionFcatory.getCurrentSession().update(user);
 		
 		return true;

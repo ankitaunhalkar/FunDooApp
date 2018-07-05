@@ -1,0 +1,36 @@
+package com.bridgelabz.fundoonotes.note.dao;
+
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.bridgelabz.fundoonotes.note.model.Note;
+
+@Repository
+public class NoteDao implements INoteDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	@Override
+	public long saveNote(Note note) {
+
+		long id = (Long) sessionFactory.getCurrentSession().save(note);
+
+		return id;
+	}
+
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	@Override
+	public List<Note> getById(long userId) {
+
+		List<Note> notelist = sessionFactory.getCurrentSession().createCriteria(Note.class)
+				.add(Restrictions.eq("uid_id", userId)).list();
+
+		return (notelist != null) ? notelist : null;
+	}
+
+}

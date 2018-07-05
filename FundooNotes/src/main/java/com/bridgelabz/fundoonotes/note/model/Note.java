@@ -37,12 +37,31 @@ public class Note {
 	private String color;
 	
 	@Column
-	private String archive;
+	private boolean archive;
 
-	@Column
-	@ManyToOne(	cascade = CascadeType.ALL )
-	private User uid;
+	@Column 
+	private boolean trash;
 	
+	@Column
+	private boolean pin;
+	
+	@ManyToOne(	cascade = CascadeType.ALL )
+	private User user;
+	
+	public Note () {} 
+	
+	public Note(CreateNoteDto createNote) {
+		
+		this.title = createNote.getTitle();
+		this.description = createNote.getDescription();
+		this.modified_date = created_date;
+		this.color = createNote.getColor();
+		this.pin = createNote.isPin();
+		this.trash = createNote.isTrash();
+		this.archive = createNote.isArchive();
+
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -75,12 +94,52 @@ public class Note {
 		this.color = color;
 	}
 
-	public String getArchive() {
+	public Date getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(Date created_date) {
+		this.created_date = created_date;
+	}
+
+	public Date getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(Date modified_date) {
+		this.modified_date = modified_date;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public boolean isArchive() {
 		return archive;
 	}
 
-	public void setArchive(String archive) {
+	public void setArchive(boolean archive) {
 		this.archive = archive;
+	}
+
+	public boolean isTrash() {
+		return trash;
+	}
+
+	public void setTrash(boolean trash) {
+		this.trash = trash;
+	}
+
+	public boolean isPin() {
+		return pin;
+	}
+
+	public void setPin(boolean pin) {
+		this.pin = pin;
 	}
 	
 }
