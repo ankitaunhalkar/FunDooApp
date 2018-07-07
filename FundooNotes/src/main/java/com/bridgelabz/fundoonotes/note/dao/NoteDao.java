@@ -36,6 +36,7 @@ public class NoteDao implements INoteDao {
 	}
 
 	@SuppressWarnings("deprecation")
+	@Override
 	public Note getById(long id) {
 
 		Criteria crt = sessionFactory.getCurrentSession().createCriteria(Note.class);
@@ -57,6 +58,7 @@ public class NoteDao implements INoteDao {
 		return note;
 	}
 
+	@Override
 	public boolean deleteNote(Note note) {
 
 		sessionFactory.getCurrentSession().delete(note);

@@ -1,0 +1,8 @@
+package com.bridgelabz.fundoonotes.user.model;
+
+public class StatusDto {
+
+	private int code;
+	
+	private String message;
+}

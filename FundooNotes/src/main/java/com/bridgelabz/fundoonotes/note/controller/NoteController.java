@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
-import com.bridgelabz.fundoonotes.note.model.ResponseDto;
+import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
+import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
 import com.bridgelabz.fundoonotes.note.services.INoteService;
 
 @RestController
@@ -24,60 +25,60 @@ public class NoteController {
 	INoteService noteService;
 
 	@RequestMapping(value = "/createnote", method = RequestMethod.POST)
-	public ResponseEntity<ResponseDto> createNote(@RequestBody CreateNoteDto note, HttpServletRequest request) {
+	public ResponseEntity<ResponseNoteDto> createNote(@RequestBody CreateNoteDto note, HttpServletRequest request) {
 
-		String token = request.getHeader("uid");
+		String token = request.getHeader("Authorization");
 
-		ResponseDto noteCreated = noteService.createNote(note, token);
+		ResponseNoteDto noteCreated = noteService.createNote(note, token);
 
 		if (noteCreated != null) {
 
-			return new ResponseEntity<ResponseDto>(noteCreated, HttpStatus.CREATED);
+			return new ResponseEntity<ResponseNoteDto>(noteCreated, HttpStatus.CREATED);
 
 		}
 
-		return new ResponseEntity<ResponseDto>(HttpStatus.CONFLICT);
+		return new ResponseEntity<ResponseNoteDto>(HttpStatus.CONFLICT);
 	}
 
-	@RequestMapping(value = "/updatenote/{id}", method = RequestMethod.POST)
-	public ResponseEntity<ResponseDto> updateNote(@PathVariable long id, @RequestBody CreateNoteDto note,
+	@RequestMapping(value = "/updatenote", method = RequestMethod.POST)
+	public ResponseEntity<ResponseNoteDto> updateNote(@RequestBody UpdateNoteDto note,
 			HttpServletRequest request) {
 
-		String token = request.getHeader("uid");
+		String token = request.getHeader("Authorization");
 
-		ResponseDto noteUpdated = noteService.updateNote(token, note, id);
+		ResponseNoteDto noteUpdated = noteService.updateNote(token, note);
 
 		if (noteUpdated != null) {
 
-			return new ResponseEntity<ResponseDto>(noteUpdated, HttpStatus.CREATED);
+			return new ResponseEntity<ResponseNoteDto>(noteUpdated, HttpStatus.CREATED);
 
 		}
 
-		return new ResponseEntity<ResponseDto>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<ResponseNoteDto>(HttpStatus.BAD_REQUEST);
 
 	}
 
 	@RequestMapping(value = "/getnotes", method = RequestMethod.GET)
-	public ResponseEntity<List<ResponseDto>> getNotes(HttpServletRequest request) {
+	public ResponseEntity<List<ResponseNoteDto>> getNotes(HttpServletRequest request) {
 
-		String token = request.getHeader("uid");
+		String token = request.getHeader("Authorization");
 
-		List<ResponseDto> notelist = noteService.getNotes(token);
+		List<ResponseNoteDto> notelist = noteService.getNotes(token);
 
 		if (notelist != null) {
 
-			return new ResponseEntity<List<ResponseDto>>(notelist, HttpStatus.OK);
+			return new ResponseEntity<List<ResponseNoteDto>>(notelist, HttpStatus.OK);
 
 		}
 
-		return new ResponseEntity<List<ResponseDto>>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<List<ResponseNoteDto>>(HttpStatus.NOT_FOUND);
 
 	}
 
 	@RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteNote(@PathVariable long id, HttpServletRequest request) {
 
-		String token = request.getHeader("uid");
+		String token = request.getHeader("Authorization");
 
 		boolean noteDeleted = noteService.deleteNote(token, id);
 

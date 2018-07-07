@@ -3,16 +3,17 @@ package com.bridgelabz.fundoonotes.note.services;
 import java.util.List;
 
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
-import com.bridgelabz.fundoonotes.note.model.ResponseDto;
+import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
+import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
 
 public interface INoteService {
 
-	ResponseDto createNote(CreateNoteDto note, String token);
+	ResponseNoteDto createNote(CreateNoteDto note, String token);
 
-	List<ResponseDto> getNotes(String token);
-
-	ResponseDto updateNote(String token, CreateNoteDto note, long noteId);
+	List<ResponseNoteDto> getNotes(String token);
 
 	boolean deleteNote(String token, long id);
+
+	ResponseNoteDto updateNote(String token, UpdateNoteDto updateNote);
 	
 }

@@ -33,31 +33,32 @@ public class UserController {
 	IUserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@Valid @RequestBody LoginDto user, HttpServletResponse response) {
+	public ResponseEntity<String> login(@Valid @RequestBody LoginDto user, HttpServletResponse header) {
 
 		String userLoginToken = userService.login(user);
 
 		if (userLoginToken != null) {
 
-			return new ResponseEntity<String>(userLoginToken, HttpStatus.OK);
+		
+			header.setHeader("Authorization", userLoginToken);
+			
+			return new ResponseEntity<String>("Login Succesful",HttpStatus.OK);
 
 		}
 
-		return new ResponseEntity<String>("User LogIn Failed", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>("Login Unsuccessful",HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<String> register(@Valid @RequestBody RegisterDto user, HttpServletRequest request) {
 
 		String url = request.getRequestURL().toString();
-		System.out.println(url);
 		String link = url.substring(0, url.lastIndexOf("/")).concat("/verify/");
-		System.out.println(link);
 		long status = userService.register(user, link);
 
 		if (status > 0) {
 
-			return new ResponseEntity<String>("User registration successfully", HttpStatus.CREATED);
+			return new ResponseEntity<String>("User registration successfully! Verify your Email Id and Activate your account", HttpStatus.CREATED);
 
 		}
 		return new ResponseEntity<String>("User registration unsuccessfully", HttpStatus.CONFLICT);

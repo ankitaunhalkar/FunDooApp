@@ -1,0 +1,14 @@
+package com.bridgelabz.fundoonotes.exception;
+
+import com.bridgelabz.fundoonotes.user.model.StatusDto;
+
+public class UserNotFound extends RuntimeException{
+
+	private static final long serialVersionUID = 1L;
+
+	public UserNotFound() {
+		
+		super("UserNotFound");
+		
+	}
+}

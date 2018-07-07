@@ -46,6 +46,7 @@ public class Note {
 	private boolean pin;
 	
 	@ManyToOne(	cascade = CascadeType.ALL )
+	//@JoinColumns(foreignKey = @ForeignKey(name = "user"), value = { @JoinColumn(referencedColumnName = "id") })
 	private User user;
 	
 	public Note () {} 
@@ -54,7 +55,6 @@ public class Note {
 		
 		this.title = createNote.getTitle();
 		this.description = createNote.getDescription();
-		this.modified_date = created_date;
 		this.color = createNote.getColor();
 		this.pin = createNote.isPin();
 		this.trash = createNote.isTrash();

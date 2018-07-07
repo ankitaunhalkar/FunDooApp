@@ -18,27 +18,41 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column
-	@Size(min=2,max=45)
+	@Size(min = 2, max = 45)
 	private String name;
-	
+
 	@Column
-	@Email @NotEmpty
+	@Email
+	@NotEmpty
 	private String email;
-	
+
 	@Column
-	@Size(min=6)
+	@Size(min = 6)
 	private String password;
 
 	@Column
-	@Size(min=10, max=10)
-	@Pattern(regexp="(^$|[0-9]{10})")
+	@Size(min = 10, max = 10)
+	@Pattern(regexp = "(^$|[0-9]{10})")
 	private String phone;
-	
+
 	@Column
-	private boolean isVerified = false;
-	
+	private boolean isVerified;
+
+	public User() {
+
+	}
+
+	public User(RegisterDto registerDto) {
+		
+		this.name = registerDto.getName();
+		this.email = registerDto.getEmail();
+		this.password = registerDto.getPassword();
+		this.phone = registerDto.getPhone();
+		
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -86,5 +100,5 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 }

@@ -26,3 +26,8 @@
 1530770169675	Rename local variable 'noteList'
 1530774680180	Rename local variable 'updatingnote'
 1530775704606	Rename local variable 'id'
+1530853522249	Delete element
+1530857348750	Rename type 'ResponseDto'
+1530869502139	Rename type 'GlobalException'
+1530877173005	Rename type 'UserNotFound'
+1530939160238	Rename type 'TokenExpireException'

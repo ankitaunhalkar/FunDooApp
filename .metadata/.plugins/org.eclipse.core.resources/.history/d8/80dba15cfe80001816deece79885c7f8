@@ -1,0 +1,8 @@
+package com.bridgelabz.fundoonotes.exception;
+
+public class UserNotFound extends Exception{
+
+	public UserNotFound() {
+		super("UserNotFound");
+	}
+}

@@ -1,0 +1,24 @@
+package com.bridgelabz.fundoonotes.exception;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.bridgelabz.fundoonotes.user.model.StatusDto;
+
+@ControllerAdvice
+public class GlobalExceptionHandler{
+
+	@ExceptionHandler(value = UserNotFound.class)
+	public ResponseEntity<String> handleUserNotFound(UserNotFound e){
+
+		UserNotFound error = new UserNotFound();
+
+		StatusDto response = new StatusDto();
+		response.setCode(code);
+		return ResponseEntity<String>();
+		
+	}
+}

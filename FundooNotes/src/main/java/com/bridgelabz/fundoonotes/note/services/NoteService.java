@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.note.dao.INoteDao;
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.Note;
-import com.bridgelabz.fundoonotes.note.model.ResponseDto;
+import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
+import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
 import com.bridgelabz.fundoonotes.user.dao.IUserDao;
 import com.bridgelabz.fundoonotes.user.model.User;
 import com.bridgelabz.fundoonotes.user.util.TokenUtil;
@@ -28,16 +29,18 @@ public class NoteService implements INoteService {
 
 	@Transactional
 	@Override
-	public ResponseDto createNote(CreateNoteDto createNote, String token) {
+	public ResponseNoteDto createNote(CreateNoteDto createNote, String token) {
 
 		long userId = TokenUtil.parseJWT(token);
 
-		ResponseDto responseNote = null;
+		ResponseNoteDto responseNote = null;
 
 		// Creating a new note
 		Note note = new Note(createNote);
 
 		note.setCreated_date(new Date());
+
+		note.setModified_date(note.getCreated_date());
 
 		note.setUser(userDao.getById(userId));
 
@@ -50,7 +53,7 @@ public class NoteService implements INoteService {
 		if (createdNote != null) {
 
 			// Adding to responseDto
-			responseNote = new ResponseDto(createdNote);
+			responseNote = new ResponseNoteDto(createdNote);
 
 		}
 
@@ -59,11 +62,11 @@ public class NoteService implements INoteService {
 
 	@Transactional
 	@Override
-	public List<ResponseDto> getNotes(String token) {
+	public List<ResponseNoteDto> getNotes(String token) {
 
 		List<Note> noteDaoList = null;
 
-		List<ResponseDto> noteList = new ArrayList<ResponseDto>();
+		List<ResponseNoteDto> noteList = new ArrayList<ResponseNoteDto>();
 
 		long userId = TokenUtil.parseJWT(token);
 
@@ -74,7 +77,7 @@ public class NoteService implements INoteService {
 
 		for (Note note : noteDaoList) {
 
-			ResponseDto notes = new ResponseDto(note);
+			ResponseNoteDto notes = new ResponseNoteDto(note);
 
 			// adding into response dto list
 			noteList.add(notes);
@@ -86,13 +89,13 @@ public class NoteService implements INoteService {
 
 	@Transactional
 	@Override
-	public ResponseDto updateNote(String token, CreateNoteDto updateNote, long noteId) {
+	public ResponseNoteDto updateNote(String token, UpdateNoteDto updateNote) {
 
-		ResponseDto responseNote = null;
+		ResponseNoteDto responseNote = null;
 
 		long userId = TokenUtil.parseJWT(token);
 
-		Note note = noteDao.getById(noteId);
+		Note note = noteDao.getById(updateNote.getId());
 
 		if (note.getUser().getId() == userId) {
 
@@ -106,7 +109,7 @@ public class NoteService implements INoteService {
 
 			noteDao.updateNote(note);
 
-			responseNote = new ResponseDto(note);
+			responseNote = new ResponseNoteDto(note);
 		}
 
 		return responseNote;

@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.fundoonotes.exception.DuplicateEmailException;
+import com.bridgelabz.fundoonotes.exception.UserNotFoundException;
 import com.bridgelabz.fundoonotes.user.dao.ITokenDao;
 import com.bridgelabz.fundoonotes.user.dao.IUserDao;
 import com.bridgelabz.fundoonotes.user.model.Mail;
@@ -27,9 +29,6 @@ public class UserServiceImpl implements IUserService {
 	IUserDao userDao;
 
 	@Autowired
-	User user;
-
-	@Autowired
 	MailProducer mailProducer;
 
 	@Autowired
@@ -43,7 +42,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public long register(RegisterDto registrationUser, String url) {
+	public long register(RegisterDto registrationUser, String url) throws DuplicateEmailException{
 
 		long registeredId = 0;
 
@@ -52,16 +51,13 @@ public class UserServiceImpl implements IUserService {
 
 		if (registerDaoStatus != null) {
 
-			return registeredId;
+			throw new DuplicateEmailException("Email Already Exists");
 
 		}
 
 		// setting into user model
-		user.setName(registrationUser.getName());
-		user.setEmail(registrationUser.getEmail());
-		user.setPassword(registrationUser.getPassword());
-		user.setPhone(registrationUser.getPhone());
-		
+		User user = new User(registrationUser);
+
 		// password encrypting
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
@@ -69,14 +65,15 @@ public class UserServiceImpl implements IUserService {
 		registeredId = userDao.save(user);
 
 		// token generating
-		String token = TokenUtil.createJWT(String.valueOf(registeredId), registrationUser.getName(), "Verification", 24 * 3600 * 1000);
+		String token = TokenUtil.createJWT(String.valueOf(registeredId), registrationUser.getName(), "Verification",
+				24 * 3600 * 1000);
 
 		// setting to email model
 		mail.setName(registrationUser.getName());
 		mail.setTo(registrationUser.getEmail());
 		mail.setSubject("Fundoo Verfication");
 		mail.setBody(url + token);
-		
+
 		// mail sending
 		mailProducer.sendMail(mail);
 
@@ -88,10 +85,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public String login(LoginDto loginUser) {
+	public String login(LoginDto loginUser) throws UserNotFoundException {
 
 		String token = null;
-		
+
 		// checking if mail id exists or not
 		User loggedUser = userDao.getByEmail(loginUser.getEmail());
 
@@ -99,9 +96,12 @@ public class UserServiceImpl implements IUserService {
 		if ((loggedUser != null) && (loggedUser.isVerified() == true)
 				&& (BCrypt.checkpw(loginUser.getPassword(), loggedUser.getPassword()))) {
 
-			token = TokenUtil.createJWT(String.valueOf(loggedUser.getId()), loggedUser.getName(), "Login", 24 * 3600 * 1000);
+			token = TokenUtil.createJWT(String.valueOf(loggedUser.getId()), loggedUser.getName(), "Login",
+					24 * 3600 * 1000);
+
+		} else
 			
-		}
+			throw new UserNotFoundException("User Not Found");
 
 		return token;
 	}
@@ -111,15 +111,15 @@ public class UserServiceImpl implements IUserService {
 	public boolean verify(String token) {
 
 		boolean status = false;
-		
+
 		// Decoding token and validating
 		long id = TokenUtil.parseJWT(token);
 
-		//getting token from redis
+		// getting token from redis
 		String redisToken = tokenDao.getToken(String.valueOf(id));
 
 		if (token.equals(redisToken)) {
-			
+
 			// Fetching user by id
 			User user = userDao.getById(id);
 
@@ -129,12 +129,12 @@ public class UserServiceImpl implements IUserService {
 			// Updating isVerified value in db
 			userDao.update(user);
 
-			//Deleting token from redis
+			// Deleting token from redis
 			tokenDao.deleteToken(String.valueOf(id));
 
 			return status = true;
 		}
-		
+
 		return status;
 	}
 
@@ -194,7 +194,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	@Transactional
 	public void mailSender(final Mail mailObj) {
-		
+
 		final MimeMessagePreparator message = new MimeMessagePreparator() {
 
 			@Override

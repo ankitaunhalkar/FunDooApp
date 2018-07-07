@@ -9,11 +9,11 @@ public class CreateNoteDto {
 		
 	private String color = "white";
 	
-	private boolean archive = false;
+	private boolean archive;
 
-	private boolean trash = false;
+	private boolean trash;
 	
-	private boolean pin = false;
+	private boolean pin;
 
 	public String getTitle() {
 		return title;
