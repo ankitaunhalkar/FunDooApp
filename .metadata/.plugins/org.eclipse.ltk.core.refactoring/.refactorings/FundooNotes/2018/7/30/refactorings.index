@@ -1,0 +1,6 @@
+1532338183771	Rename type 'CorsConfig'
+1532338198665	Rename type 'CORDFilter'
+1532338836056	Rename type 'CORSFilter'
+1532425711566	Rename method 'resetPassword'
+1532425729217	Rename method 'reset'
+1532694931763	Rename local variable 'responseDto'

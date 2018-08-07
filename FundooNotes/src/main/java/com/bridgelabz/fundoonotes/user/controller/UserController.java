@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.user.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundoonotes.user.model.LoginDto;
 import com.bridgelabz.fundoonotes.user.model.RegisterDto;
 import com.bridgelabz.fundoonotes.user.model.ResetPasswordDto;
+import com.bridgelabz.fundoonotes.user.model.StatusDto;
 import com.bridgelabz.fundoonotes.user.services.IUserService;
 
 /**
@@ -33,32 +36,32 @@ public class UserController {
 	IUserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@Valid @RequestBody LoginDto user, HttpServletResponse header) {
+	public ResponseEntity<?> login(@Valid @RequestBody LoginDto user, HttpServletResponse header) {
 
-		String userLoginToken = userService.login(user);
+		LoginDto userLoginToken = userService.login(user);
 
 		if (userLoginToken != null) {
 
-		
-			header.setHeader("Authorization", userLoginToken);
-			
-			return new ResponseEntity<String>("Login Succesful",HttpStatus.OK);
+			header.setHeader("Authorization", userLoginToken.getToken());
+
+			return new ResponseEntity<>(userLoginToken, HttpStatus.OK);
 
 		}
-
-		return new ResponseEntity<String>("Login Unsuccessful",HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<String> register(@Valid @RequestBody RegisterDto user, HttpServletRequest request) {
+	public ResponseEntity<?> register(@Valid @RequestBody RegisterDto user, HttpServletRequest request) {
 
 		String url = request.getRequestURL().toString();
 		String link = url.substring(0, url.lastIndexOf("/")).concat("/verify/");
 		long status = userService.register(user, link);
 
 		if (status > 0) {
-
-			return new ResponseEntity<String>("User registration successfully! Verify your Email Id and Activate your account", HttpStatus.CREATED);
+			StatusDto res = new StatusDto();
+			res.setMessage("User registration successfully! Verify your Email Id and Activate your account");
+			res.setCode(200);
+			return new ResponseEntity<>(res, HttpStatus.OK);
 
 		}
 		return new ResponseEntity<String>("User registration unsuccessfully", HttpStatus.CONFLICT);
@@ -78,28 +81,49 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
-	public ResponseEntity<String> forgotPassword(@Valid @RequestBody ResetPasswordDto userEmail,
+	public ResponseEntity<?> forgotPassword(@Valid @RequestBody ResetPasswordDto userEmail,
 			HttpServletRequest request) {
 
 		String url = request.getRequestURL().toString();
 		String link = url.substring(0, url.lastIndexOf("/")).concat("/resetpassword/");
 
-		System.out.println("cont" + userEmail.getEmailId());
+		long id = userService.forgotPassword(userEmail, link);
 
-		userService.forgotPassword(userEmail, link);
+		if (id > 0) {
+			StatusDto res = new StatusDto();
+			res.setMessage("Forgot Password");
+			res.setCode(200);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<String>("Forgot Password", HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
-	@RequestMapping(value = "/resetpassword/{token:.+}", method = RequestMethod.PUT)
-	public ResponseEntity<String> resetPassword(@Valid @PathVariable String token,
-			@RequestBody ResetPasswordDto userPassword) {
+	@RequestMapping(value = "/resetpassword/{token:.+}", method = RequestMethod.GET)
+	public ResponseEntity<?> resetpassword(@Valid @PathVariable String token, HttpServletResponse response) {
 
-		boolean status = userService.resetPassword(userPassword, token);
-
+		boolean status = userService.resetPassword(token, response);
 		if (status) {
 
-			return new ResponseEntity<String>("Password Reset", HttpStatus.OK);
+			return new ResponseEntity<String>("Redirected to reset page", HttpStatus.OK);
+
+		}
+
+		return new ResponseEntity<String>("Could not redirect! Try again!", HttpStatus.BAD_REQUEST);
+
+	}
+
+	@RequestMapping(value = "/changepassword/{token:.+}", method = RequestMethod.PUT)
+	public ResponseEntity<?> changePassword(@Valid @PathVariable String token,
+			@RequestBody ResetPasswordDto userPassword) {
+
+		boolean status = userService.changePassword(userPassword, token);
+
+		if (status) {
+			StatusDto res = new StatusDto();
+			res.setMessage("Password Changed Successful");
+			res.setCode(200);
+			return new ResponseEntity<>(res, HttpStatus.OK);
 
 		}
 

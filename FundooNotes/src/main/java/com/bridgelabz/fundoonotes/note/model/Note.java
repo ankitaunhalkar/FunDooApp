@@ -11,12 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.bridgelabz.fundoonotes.user.model.User;
 
 @Entity
 @Table(name = "note")
 public class Note {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -25,6 +27,7 @@ public class Note {
 	private String title;
 	
 	@Column
+	@Type(type="text")
 	private String description;
 	
 	@Column
@@ -57,7 +60,6 @@ public class Note {
 		this.description = createNote.getDescription();
 		this.color = createNote.getColor();
 		this.pin = createNote.isPin();
-		this.trash = createNote.isTrash();
 		this.archive = createNote.isArchive();
 
 	}

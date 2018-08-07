@@ -17,6 +17,7 @@ import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
 import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
 import com.bridgelabz.fundoonotes.note.services.INoteService;
+import com.bridgelabz.fundoonotes.user.model.StatusDto;
 
 @RestController
 public class NoteController {
@@ -27,6 +28,7 @@ public class NoteController {
 	@RequestMapping(value = "/createnote", method = RequestMethod.POST)
 	public ResponseEntity<ResponseNoteDto> createNote(@RequestBody CreateNoteDto note, HttpServletRequest request) {
 
+		System.out.println("hello");
 		String token = request.getHeader("Authorization");
 
 		ResponseNoteDto noteCreated = noteService.createNote(note, token);
@@ -40,10 +42,11 @@ public class NoteController {
 		return new ResponseEntity<ResponseNoteDto>(HttpStatus.CONFLICT);
 	}
 
-	@RequestMapping(value = "/updatenote", method = RequestMethod.POST)
+	@RequestMapping(value = "/updatenote", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseNoteDto> updateNote(@RequestBody UpdateNoteDto note,
 			HttpServletRequest request) {
 
+		System.out.println("in update");
 		String token = request.getHeader("Authorization");
 
 		ResponseNoteDto noteUpdated = noteService.updateNote(token, note);
@@ -76,19 +79,22 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteNote(@PathVariable long id, HttpServletRequest request) {
+	public ResponseEntity<?> deleteNote(@PathVariable long id, HttpServletRequest request) {
 
 		String token = request.getHeader("Authorization");
 
-		boolean noteDeleted = noteService.deleteNote(token, id);
+		long noteDeleted = noteService.deleteNote(token, id);
 
-		if (noteDeleted) {
+		if (noteDeleted > 0) {
 
-			return new ResponseEntity<String>("Note Deleted Succesfully", HttpStatus.OK);
+			StatusDto res = new StatusDto();
+			res.setCode(200);
+			res.setMessage("Note Deleted Succesfully");
+			return new ResponseEntity<>(res, HttpStatus.OK);
 
 		}
 
-		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
 	}
 }

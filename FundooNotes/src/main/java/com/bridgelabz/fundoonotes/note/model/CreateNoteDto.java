@@ -7,11 +7,9 @@ public class CreateNoteDto {
 	
 	private String description;
 		
-	private String color = "white";
+	private String color;
 	
 	private boolean archive;
-
-	private boolean trash;
 	
 	private boolean pin;
 
@@ -45,14 +43,6 @@ public class CreateNoteDto {
 
 	public void setArchive(boolean archive) {
 		this.archive = archive;
-	}
-
-	public boolean isTrash() {
-		return trash;
-	}
-
-	public void setTrash(boolean trash) {
-		this.trash = trash;
 	}
 
 	public boolean isPin() {

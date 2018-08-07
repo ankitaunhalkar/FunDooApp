@@ -14,7 +14,7 @@ public class RegisterDto {
 	@NotEmpty
 	private String email;
 
-	@Size(min = 6)
+	@Size(min = 3)
 	private String password;
 
 	@Size(min = 10, max = 10)

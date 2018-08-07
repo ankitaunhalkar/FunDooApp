@@ -8,7 +8,7 @@ public class ResetPasswordDto {
 	@Email
 	private String emailId;
 	
-	@Size(min=6)
+	@Size(min=3)
 	private String newPassword;
 	
 	public String getEmailId() {

@@ -3,8 +3,10 @@ package com.bridgelabz.fundoonotes.note.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -59,12 +61,13 @@ public class NoteDao implements INoteDao {
 	}
 
 	@Override
-	public boolean deleteNote(Note note) {
-
-		sessionFactory.getCurrentSession().delete(note);
+	public long deleteNote(long noteId) {
 		
-		return true;
-
+		String queryDelete = "delete from Note where id =: noteId";
+		Query<?> query = sessionFactory.getCurrentSession().createQuery(queryDelete);
+		query.setParameter("noteId", noteId);
+		long result = query.executeUpdate();
+		return result;
 	}
 
 }

@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.bridgelabz.fundoonotes.note.model.Note;
-import com.bridgelabz.fundoonotes.user.model.Mail;
 import com.bridgelabz.fundoonotes.user.model.User;
 
 @Configuration
@@ -151,15 +150,5 @@ public class AppConfig {
 		redisTemplate.setEnableTransactionSupport(true);
 		return redisTemplate;
 	}
-	
-	@Bean
-	public User user() {
-		return new User();
-	}
 
-	@Bean
-	public Mail email() {
-		return new Mail();
-	}
-	
 }

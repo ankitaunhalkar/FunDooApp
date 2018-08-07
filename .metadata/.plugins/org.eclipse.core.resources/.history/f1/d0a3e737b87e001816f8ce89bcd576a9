@@ -1,8 +1,0 @@
-package com.bridgelabz.fundoonotes.user.dao;
-
-public interface ITokenDao {
-
-	void setToken();
-	String getToken();
-	void deleteToken();
-}

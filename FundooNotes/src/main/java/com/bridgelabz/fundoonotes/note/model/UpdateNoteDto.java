@@ -8,7 +8,7 @@ public class UpdateNoteDto {
 	
 	private String description;
 		
-	private String color = "white";
+	private String color;
 	
 	private boolean archive;
 

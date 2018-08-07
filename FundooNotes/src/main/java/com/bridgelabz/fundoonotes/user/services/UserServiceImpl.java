@@ -1,7 +1,10 @@
 package com.bridgelabz.fundoonotes.user.services;
 
+import java.io.IOException;
+
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -32,9 +35,6 @@ public class UserServiceImpl implements IUserService {
 	MailProducer mailProducer;
 
 	@Autowired
-	Mail mail;
-
-	@Autowired
 	ITokenDao tokenDao;
 
 	@Autowired
@@ -42,7 +42,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public long register(RegisterDto registrationUser, String url) throws DuplicateEmailException{
+	public long register(RegisterDto registrationUser, String url) throws DuplicateEmailException {
 
 		long registeredId = 0;
 
@@ -69,6 +69,8 @@ public class UserServiceImpl implements IUserService {
 				24 * 3600 * 1000);
 
 		// setting to email model
+		Mail mail = new Mail();
+
 		mail.setName(registrationUser.getName());
 		mail.setTo(registrationUser.getEmail());
 		mail.setSubject("Fundoo Verfication");
@@ -85,25 +87,32 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public String login(LoginDto loginUser) throws UserNotFoundException {
+	public LoginDto login(LoginDto loginUser) throws UserNotFoundException {
 
+		LoginDto userInfo = null;
+		
 		String token = null;
 
 		// checking if mail id exists or not
 		User loggedUser = userDao.getByEmail(loginUser.getEmail());
 
+//		System.out.println("login"+loggedUser.getPassword());
 		// if exists then matching the password
 		if ((loggedUser != null) && (loggedUser.isVerified() == true)
 				&& (BCrypt.checkpw(loginUser.getPassword(), loggedUser.getPassword()))) {
 
 			token = TokenUtil.createJWT(String.valueOf(loggedUser.getId()), loggedUser.getName(), "Login",
 					24 * 3600 * 1000);
+			userInfo = new LoginDto();
+			userInfo.setEmail(loggedUser.getEmail());
+			userInfo.setToken(token);
+			userInfo.setUsername(loggedUser.getName());
 
 		} else
-			
+
 			throw new UserNotFoundException("User Not Found");
 
-		return token;
+		return userInfo;
 	}
 
 	@Override
@@ -140,7 +149,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public void forgotPassword(ResetPasswordDto userDto, String url) {
+	public long forgotPassword(ResetPasswordDto userDto, String url) {
 
 		// Fetching user by emailId
 		User user = userDao.getByEmail(userDto.getEmailId());
@@ -149,6 +158,8 @@ public class UserServiceImpl implements IUserService {
 		String token = TokenUtil.createJWT(String.valueOf(user.getId()), "Ankita", "Verification", 24 * 3600 * 1000);
 
 		// setting to email model
+		Mail mail = new Mail();
+
 		mail.setName(user.getName());
 		mail.setTo(user.getEmail());
 		mail.setSubject("Reset Password Verification");
@@ -158,12 +169,40 @@ public class UserServiceImpl implements IUserService {
 		mailProducer.sendMail(mail);
 
 		tokenDao.setToken(String.valueOf(user.getId()), token);
+		
+		return user.getId();
 
 	}
 
 	@Override
 	@Transactional
-	public boolean resetPassword(ResetPasswordDto userDto, String token) {
+	public boolean resetPassword(String token, HttpServletResponse response) {
+
+		boolean status = false;
+
+		// decoding token and validating
+		long id = TokenUtil.parseJWT(token);
+
+		String redisToken = tokenDao.getToken(String.valueOf(id));
+
+		if (token.equals(redisToken)) {
+
+			try {
+				status = true;
+				response.sendRedirect("http://127.0.0.1:8081/#!/resetpassword?token=" + token);
+			} catch (IOException e) {
+				System.out.println("Cannot Redirect to resetpassword");
+			}
+
+		}
+
+		return status;
+
+	}
+
+	@Override
+	@Transactional
+	public boolean changePassword(ResetPasswordDto userDto, String token) {
 
 		boolean status = false;
 
