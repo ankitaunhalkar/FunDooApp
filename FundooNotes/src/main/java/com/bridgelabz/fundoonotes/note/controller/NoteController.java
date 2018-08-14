@@ -3,15 +3,20 @@ package com.bridgelabz.fundoonotes.note.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
@@ -43,10 +48,9 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/updatenote", method = RequestMethod.PUT)
-	public ResponseEntity<ResponseNoteDto> updateNote(@RequestBody UpdateNoteDto note,
-			HttpServletRequest request) {
+	public ResponseEntity<ResponseNoteDto> updateNote(@RequestBody UpdateNoteDto note, HttpServletRequest request) {
 
-		System.out.println("in update");
+		System.out.println("in update"+note.getImage());
 		String token = request.getHeader("Authorization");
 
 		ResponseNoteDto noteUpdated = noteService.updateNote(token, note);
@@ -75,7 +79,6 @@ public class NoteController {
 		}
 
 		return new ResponseEntity<List<ResponseNoteDto>>(HttpStatus.NOT_FOUND);
-
 	}
 
 	@RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
@@ -95,6 +98,27 @@ public class NoteController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
+	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
+	public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+
+		String status = noteService.uploadImage(file);
+		// System.out.println(status);
+		StatusDto res = new StatusDto();
+		res.setCode(200);
+		res.setMessage(status);
+		return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+	}
+
+	@RequestMapping(value = "/getimage/{filename:.+}", method = RequestMethod.GET)
+	public ResponseEntity<?> downloadImage(@PathVariable String filename, HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		ByteArrayResource resource = noteService.loadImage(filename);
+	
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
 }

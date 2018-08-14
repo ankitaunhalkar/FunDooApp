@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.note.model;
 
+import java.util.Date;
+
 public class UpdateNoteDto {
 
 	private long id;
@@ -16,6 +18,10 @@ public class UpdateNoteDto {
 	
 	private boolean pin;
 
+	private Date reminder;
+	
+	private String image;
+	
 	public long getId() {
 		return id;
 	}
@@ -70,6 +76,22 @@ public class UpdateNoteDto {
 
 	public void setPin(boolean pin) {
 		this.pin = pin;
+	}
+
+	public Date getReminder() {
+		return reminder;
+	}
+
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 }

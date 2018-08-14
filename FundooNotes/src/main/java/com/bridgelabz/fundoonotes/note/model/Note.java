@@ -37,7 +37,7 @@ public class Note {
 	private Date modified_date;
 	
 	@Column
-	private String color;
+	private String color = "white";
 	
 	@Column
 	private boolean archive;
@@ -47,6 +47,12 @@ public class Note {
 	
 	@Column
 	private boolean pin;
+	
+	@Column
+	private Date reminder;
+	
+	@Column
+	private String image;
 	
 	@ManyToOne(	cascade = CascadeType.ALL )
 	//@JoinColumns(foreignKey = @ForeignKey(name = "user"), value = { @JoinColumn(referencedColumnName = "id") })
@@ -61,7 +67,8 @@ public class Note {
 		this.color = createNote.getColor();
 		this.pin = createNote.isPin();
 		this.archive = createNote.isArchive();
-
+		this.reminder = createNote.getReminder();
+		this.image = createNote.getImage();
 	}
 
 	public long getId() {
@@ -142,6 +149,22 @@ public class Note {
 
 	public void setPin(boolean pin) {
 		this.pin = pin;
+	}
+
+	public Date getReminder() {
+		return reminder;
+	}
+
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 }

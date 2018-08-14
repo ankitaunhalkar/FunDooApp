@@ -28,7 +28,6 @@ public class CorsConfig extends OncePerRequestFilter {
 
 		if (!request.getMethod().equals(OPTIONS)) {
 			filterChain.doFilter(request, response);
-
 		}
 	}
 

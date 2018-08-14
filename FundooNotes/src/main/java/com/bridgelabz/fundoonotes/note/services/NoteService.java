@@ -1,5 +1,12 @@
 package com.bridgelabz.fundoonotes.note.services;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +14,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.note.dao.INoteDao;
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
@@ -106,7 +115,8 @@ public class NoteService implements INoteService {
 			note.setPin(updateNote.isPin());
 			note.setTrash(updateNote.isTrash());
 			note.setArchive(updateNote.isArchive());
-
+			note.setReminder(updateNote.getReminder());
+			note.setImage(updateNote.getImage());
 			noteDao.updateNote(note);
 
 			responseNote = new ResponseNoteDto(note);
@@ -130,6 +140,43 @@ public class NoteService implements INoteService {
 		}
 		return status;
 
+	}
+
+	@Override
+	public String uploadImage(MultipartFile file) {
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File("/home/bridgeit/eclipse-workspace/fundooApp/FundooNotes/src/main/java/com/bridgelabz/fundoonotes/images/"
+								+ file.getOriginalFilename())));
+				stream.write(bytes);
+				stream.close();
+				
+				return "http://localhost:8080/fundoonotes/getimage/"+file.getOriginalFilename();
+			} catch (Exception e) {
+				return "You failed to upload " + e.getMessage();
+			}
+		} else {
+			return "You failed to upload because the file was empty.";
+		}
+	}
+
+	@Override
+	public ByteArrayResource loadImage(String filename) {
+		String downloadFolder = "/home/bridgeit/eclipse-workspace/fundooApp/FundooNotes/src/main/java/com/bridgelabz/fundoonotes/images/";
+		Path file = Paths.get(downloadFolder, filename);
+		
+		byte[] data = null;
+		ByteArrayResource resource = null;
+		try {
+			data = Files.readAllBytes(file);
+			resource = new ByteArrayResource(data);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return resource;
 	}
 
 }

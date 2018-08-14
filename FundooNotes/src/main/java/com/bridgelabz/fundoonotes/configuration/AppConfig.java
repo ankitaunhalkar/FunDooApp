@@ -24,6 +24,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.bridgelabz.fundoonotes.note.model.Note;
@@ -149,6 +150,13 @@ public class AppConfig {
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		redisTemplate.setEnableTransactionSupport(true);
 		return redisTemplate;
+	}
+	
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(200000);
+	    return multipartResolver;
 	}
 
 }

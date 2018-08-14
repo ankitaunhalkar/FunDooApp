@@ -3,3 +3,5 @@ INDEX VERSION 1.130
 /FunDooNotes/src/main/java
 /home/bridgeit/eclipse-workspace/fundooApp/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/1390215281.index
 /FundooNotes/src/main/java
+/home/bridgeit/eclipse-workspace/fundooApp/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/2534924372.index
+/FundooNotes/src/main/java

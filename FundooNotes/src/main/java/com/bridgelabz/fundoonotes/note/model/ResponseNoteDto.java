@@ -22,6 +22,10 @@ public class ResponseNoteDto {
 	
 	private Date modified_date;
 
+	private Date reminder;
+	
+	private String image;
+	
 	public ResponseNoteDto() {
 
 	}
@@ -36,6 +40,8 @@ public class ResponseNoteDto {
 		this.color = note.getColor();
 		this.create_date = note.getCreated_date();
 		this.modified_date = note.getModified_date();
+		this.reminder = note.getReminder();
+		this.image = note.getImage();
 	}
 	
 	public long getId() {
@@ -107,6 +113,20 @@ public class ResponseNoteDto {
 
 	public void setModified_date(Date modified_date) {
 		this.modified_date = modified_date;
+	}
+	
+	public Date getReminder() {
+		return reminder;
+	}
+	
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 		
 }
