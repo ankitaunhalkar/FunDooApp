@@ -17,4 +17,5 @@ public interface IUserService {
 	boolean resetPassword(String token, HttpServletResponse response);
 	boolean changePassword(ResetPasswordDto userPassword, String token);
 	void mailSender(Mail mailObj);
+	LoginDto updateProfile(String token, LoginDto profile);
 }

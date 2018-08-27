@@ -90,7 +90,7 @@ public class NoteService implements INoteService {
 
 			// adding into response dto list
 			noteList.add(notes);
-
+			
 		}
 
 		return noteList;
@@ -117,9 +117,10 @@ public class NoteService implements INoteService {
 			note.setArchive(updateNote.isArchive());
 			note.setReminder(updateNote.getReminder());
 			note.setImage(updateNote.getImage());
-			noteDao.updateNote(note);
+			note.setLabels(updateNote.getNotelabel());
+			Note updatednote = noteDao.updateNote(note);
 
-			responseNote = new ResponseNoteDto(note);
+			responseNote = new ResponseNoteDto(updatednote);
 		}
 
 		return responseNote;

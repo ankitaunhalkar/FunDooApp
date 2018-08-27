@@ -1,0 +1,33 @@
+package com.bridgelabz.fundoonotes.label.model;
+
+public class ResponseLabelDto {
+	
+	private long id;
+
+	private String labelName;
+
+	
+	public ResponseLabelDto(Label labelcreated) {
+		
+		this.id = labelcreated.getId();
+		this.labelname = labelcreated.getLabelName();
+		
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getLabelname() {
+		return labelname;
+	}
+
+	public void setLabelname(String labelname) {
+		this.labelname = labelname;
+	}
+		
+}

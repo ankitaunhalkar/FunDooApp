@@ -3,7 +3,6 @@ package com.bridgelabz.fundoonotes.note.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
@@ -27,13 +26,15 @@ public class NoteDao implements INoteDao {
 		return id;
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<Note> getAllNotes(User user) {
-
-		List<Note> notelist = sessionFactory.getCurrentSession().createCriteria(Note.class)
-				.add(Restrictions.eq("user", user)).list();
-
+		
+		String querySelect = "from Note where user_id =: user";
+		Query<?> query = sessionFactory.getCurrentSession().createQuery(querySelect);
+		query.setParameter("user", user);
+		List notelist =  query.list();
+		
 		return (notelist != null) ? notelist : null;
 	}
 
@@ -44,8 +45,6 @@ public class NoteDao implements INoteDao {
 		Criteria crt = sessionFactory.getCurrentSession().createCriteria(Note.class);
 
 		crt.add(Restrictions.eq("id", id));
-
-		System.out.println(id);
 		
 		Note note = (Note) crt.uniqueResult();
 

@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.bridgelabz.fundoonotes.label.model.Label;
 import com.bridgelabz.fundoonotes.note.model.Note;
 import com.bridgelabz.fundoonotes.user.model.User;
 
@@ -71,7 +72,7 @@ public class AppConfig {
 		prop.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
 		factory.setHibernateProperties(prop);
-		factory.setAnnotatedClasses(User.class,Note.class);
+		factory.setAnnotatedClasses(User.class,Note.class,Label.class);
 
 		return factory;
 

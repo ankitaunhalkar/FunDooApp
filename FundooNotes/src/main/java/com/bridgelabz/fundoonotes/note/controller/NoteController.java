@@ -33,7 +33,6 @@ public class NoteController {
 	@RequestMapping(value = "/createnote", method = RequestMethod.POST)
 	public ResponseEntity<ResponseNoteDto> createNote(@RequestBody CreateNoteDto note, HttpServletRequest request) {
 
-		System.out.println("hello");
 		String token = request.getHeader("Authorization");
 
 		ResponseNoteDto noteCreated = noteService.createNote(note, token);
@@ -50,7 +49,6 @@ public class NoteController {
 	@RequestMapping(value = "/updatenote", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseNoteDto> updateNote(@RequestBody UpdateNoteDto note, HttpServletRequest request) {
 
-		System.out.println("in update"+note.getImage());
 		String token = request.getHeader("Authorization");
 
 		ResponseNoteDto noteUpdated = noteService.updateNote(token, note);

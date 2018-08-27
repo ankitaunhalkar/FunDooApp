@@ -107,6 +107,7 @@ public class UserServiceImpl implements IUserService {
 			userInfo.setEmail(loggedUser.getEmail());
 			userInfo.setToken(token);
 			userInfo.setUsername(loggedUser.getName());
+			userInfo.setProfile(loggedUser.getProfile());
 
 		} else
 
@@ -247,6 +248,28 @@ public class UserServiceImpl implements IUserService {
 		};
 
 		mailSender.send(message);
+	}
+
+	@Transactional
+	@Override
+	public LoginDto updateProfile(String token, LoginDto profile) {
+
+		long userId = TokenUtil.parseJWT(token);
+		
+		User user = userDao.getById(userId);
+		user.setProfile(profile.getProfile());
+		
+		boolean status = userDao.update(user);
+		if(status)
+		{
+			LoginDto response = new LoginDto();
+			response.setProfile(user.getProfile());
+			response.setEmail(user.getEmail());
+			response.setToken(token);
+			response.setUsername(user.getName());
+			return response;
+		}
+		return null;
 	}
 
 }

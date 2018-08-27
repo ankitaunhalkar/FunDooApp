@@ -1,6 +1,5 @@
 package com.bridgelabz.fundoonotes.user.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -127,5 +126,17 @@ public class UserController {
 		}
 
 		return new ResponseEntity<String>("Could not Reset! Try again!", HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(value = "/setprofile", method = RequestMethod.PUT)
+	public ResponseEntity<?> setProfile(@RequestBody LoginDto profile, HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+
+		LoginDto result = userService.updateProfile(token, profile);
+
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

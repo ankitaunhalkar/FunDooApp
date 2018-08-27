@@ -40,6 +40,9 @@ public class User {
 	@Column
 	private boolean isVerified;
 
+	@Column
+	private String profile;
+	
 	public User() {
 
 	}
@@ -99,6 +102,14 @@ public class User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 }

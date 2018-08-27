@@ -1,6 +1,9 @@
 package com.bridgelabz.fundoonotes.note.model;
 
 import java.util.Date;
+import java.util.Set;
+
+import com.bridgelabz.fundoonotes.label.model.Label;
 
 public class ResponseNoteDto {
 
@@ -26,6 +29,9 @@ public class ResponseNoteDto {
 	
 	private String image;
 	
+	private Set<Label> notelabel;
+
+	
 	public ResponseNoteDto() {
 
 	}
@@ -42,6 +48,7 @@ public class ResponseNoteDto {
 		this.modified_date = note.getModified_date();
 		this.reminder = note.getReminder();
 		this.image = note.getImage();
+		this.notelabel = note.getLabels();
 	}
 	
 	public long getId() {
@@ -122,11 +129,21 @@ public class ResponseNoteDto {
 	public void setReminder(Date reminder) {
 		this.reminder = reminder;
 	}
+	
 	public String getImage() {
 		return image;
 	}
+	
 	public void setImage(String image) {
 		this.image = image;
+	}
+	
+	public Set<Label> getNotelabel() {
+		return notelabel;
+	}
+	
+	public void setNotelabel(Set<Label> notelabel) {
+		this.notelabel = notelabel;
 	}
 		
 }

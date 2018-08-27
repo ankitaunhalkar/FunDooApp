@@ -15,7 +15,9 @@ public class LoginDto {
 	private String token;
 	
 	private String username;
-
+	
+	private String profile;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -48,4 +50,12 @@ public class LoginDto {
 		this.username = username;
 	}
 
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	
 }

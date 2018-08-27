@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;labelname&apos; in &apos;com.bridgelabz.fundoonotes.label.model.ResponseLabelDto&apos; to &apos;labelName&apos;&#x0A;- Original project: &apos;FundooNotes&apos;&#x0A;- Original element: &apos;com.bridgelabz.fundoonotes.label.model.ResponseLabelDto.labelname&apos;&#x0A;- Renamed element: &apos;com.bridgelabz.fundoonotes.label.model.ResponseLabelDto.labelName&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;labelname&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src\/main\/java&lt;com.bridgelabz.fundoonotes.label.model{ResponseLabelDto.java[ResponseLabelDto^labelname" name="labelName" references="true" setter="false" stamp="1534911918353" textual="false" version="1.0"/>
+</session>
