@@ -1,7 +1,8 @@
+
 package com.bridgelabz.fundoonotes.note.model;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -59,12 +61,16 @@ public class Note {
 	@Column
 	private String image;
 	
+	@Column
+	@OneToMany (cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<Url> urls;
+	
 	@ManyToOne(	cascade = CascadeType.ALL )
 	//@JoinColumns(foreignKey = @ForeignKey(name = "user"), value = { @JoinColumn(referencedColumnName = "id") })
 	private User user;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	private Set<Label> notelabel = new HashSet<Label>();
+	private Set<Label> notelabel;
 	
 	
 	public Note () {} 
@@ -183,6 +189,14 @@ public class Note {
 
 	public void setLabels(Set<Label> labels) {
 		this.notelabel = labels;
+	}
+
+	public List<Url> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(List<Url> urls) {
+		this.urls = urls;
 	}
 	
 }

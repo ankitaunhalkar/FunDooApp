@@ -22,8 +22,8 @@ import com.bridgelabz.fundoonotes.user.model.LoginDto;
 import com.bridgelabz.fundoonotes.user.model.RegisterDto;
 import com.bridgelabz.fundoonotes.user.model.ResetPasswordDto;
 import com.bridgelabz.fundoonotes.user.model.User;
-import com.bridgelabz.fundoonotes.user.util.MailProducer;
-import com.bridgelabz.fundoonotes.user.util.TokenUtil;
+import com.bridgelabz.fundoonotes.util.MailProducer;
+import com.bridgelabz.fundoonotes.util.TokenUtil;
 
 @Service
 public class UserServiceImpl implements IUserService {

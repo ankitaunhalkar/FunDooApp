@@ -21,7 +21,7 @@ import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
 import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
 import com.bridgelabz.fundoonotes.user.dao.IUserDao;
 import com.bridgelabz.fundoonotes.user.model.User;
-import com.bridgelabz.fundoonotes.user.util.TokenUtil;
+import com.bridgelabz.fundoonotes.util.TokenUtil;
 
 @Service
 public class LabelService implements ILabelService {

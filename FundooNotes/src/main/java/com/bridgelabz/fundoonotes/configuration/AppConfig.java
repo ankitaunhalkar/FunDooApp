@@ -29,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.bridgelabz.fundoonotes.label.model.Label;
 import com.bridgelabz.fundoonotes.note.model.Note;
+import com.bridgelabz.fundoonotes.note.model.Url;
 import com.bridgelabz.fundoonotes.user.model.User;
 
 @Configuration
@@ -72,7 +73,7 @@ public class AppConfig {
 		prop.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
 		factory.setHibernateProperties(prop);
-		factory.setAnnotatedClasses(User.class,Note.class,Label.class);
+		factory.setAnnotatedClasses(User.class,Note.class,Label.class,Url.class);
 
 		return factory;
 
