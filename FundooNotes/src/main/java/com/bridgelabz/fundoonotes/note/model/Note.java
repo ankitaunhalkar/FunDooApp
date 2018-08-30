@@ -2,7 +2,6 @@
 package com.bridgelabz.fundoonotes.note.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -63,7 +62,7 @@ public class Note {
 	
 	@Column
 	@OneToMany (cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<Url> urls;
+	private Set<Url> urls;
 	
 	@ManyToOne(	cascade = CascadeType.ALL )
 	//@JoinColumns(foreignKey = @ForeignKey(name = "user"), value = { @JoinColumn(referencedColumnName = "id") })
@@ -191,11 +190,11 @@ public class Note {
 		this.notelabel = labels;
 	}
 
-	public List<Url> getUrls() {
+	public Set<Url> getUrls() {
 		return urls;
 	}
 
-	public void setUrls(List<Url> urls) {
+	public void setUrls(Set<Url> urls) {
 		this.urls = urls;
 	}
 	

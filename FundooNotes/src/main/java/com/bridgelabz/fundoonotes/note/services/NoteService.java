@@ -9,8 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
@@ -48,8 +49,8 @@ public class NoteService implements INoteService {
 		long userId = TokenUtil.parseJWT(token);
 		ResponseNoteDto responseNote = null;
 
-		List<Url> listofurlinfo = urlinfo(createNote.getDescription());
-		
+		Set<Url> listofurlinfo = urlinfo(createNote.getDescription());
+
 		// Creating a new note
 		Note note = new Note(createNote);
 
@@ -58,8 +59,8 @@ public class NoteService implements INoteService {
 		note.setModified_date(note.getCreated_date());
 
 		note.setUser(userDao.getById(userId));
-		
-		if (listofurlinfo != null) {
+
+		if (!listofurlinfo.isEmpty()) {
 			note.setUrls(listofurlinfo);
 		}
 
@@ -78,53 +79,6 @@ public class NoteService implements INoteService {
 
 		return responseNote;
 	}
-
-	private List<Url> urlinfo(String description) {
-		
-		String urlregex = "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
-		description = description.replaceAll("(\r\n | \n)", "\\s");
-		String[] descripArray = description.split("\\s+");
-		
-		Url urlinfo = null;
-		Pattern p = Pattern.compile(urlregex);
-
-		List<String> listofurl = new ArrayList<String>();
-		List<Url> listofurlinfo = new ArrayList<Url> ();	
-		
-		for (int i = 0; i < descripArray.length; i++) {
-			if (p.matcher(descripArray[i]).matches()) {
-				listofurl.add(descripArray[i]);
-			}
-		}
-				
-		for (int i = 0; i < listofurl.size(); i++) {
-			String url = listofurl.get(i);
-			if (url != null) {
-				Document doc;
-				try {
-					doc = Jsoup.connect(url).get();
-					String urlTitle = doc.title();
-
-					String urlDescription = url.split("://")[1].split("/")[0];
-					String urlImage = doc.select("meta[property=og:image]").first().attr("content");
-
-					urlinfo = new Url();
-					urlinfo.setUrl(url);
-					urlinfo.setUrlTitle(urlTitle);
-					urlinfo.setUrlDescription(urlDescription);
-					urlinfo.setUrlImage(urlImage);
-
-					listofurlinfo.add(urlinfo);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		}
-		return listofurlinfo;
-	}
-
 
 	@Transactional
 	@Override
@@ -165,53 +119,8 @@ public class NoteService implements INoteService {
 
 		if (note.getUser().getId() == userId) {
 
-			/*String urlregex = "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
-			String description = updateNote.getDescription();
-			String[] descripArray = description.split("\\s+");
-			Url urlinfo = null;
-			Pattern p = Pattern.compile(urlregex);
+			Set<Url> listofurlinfo = urlinfo(updateNote.getDescription());
 
-			List<String> listofurl = new ArrayList<String>();
-
-			List<Url> listofurlinfo = new ArrayList<Url> ();
-			
-			for (int i = 0; i < descripArray.length; i++) {
-				if (p.matcher(descripArray[i]).matches()) {
-					listofurl.add(descripArray[i]);
-				}
-			}
-
-			for (int i = 0; i < listofurl.size(); i++) {
-				String url = listofurl.get(i);
-				if (url != null) {
-					Document doc;
-					try {
-						doc = Jsoup.connect(url).get();
-						String urlTitle = doc.title();
-
-						System.out.println(urlTitle);
-
-						String urlDescription = doc.select("meta[name=description]").first().attr("content");
-						System.out.println("Description : " + urlDescription);
-
-						String urlImage = doc.select("meta[property=og:image]").first().attr("content");
-						System.out.println("image : " + urlImage);
-
-						urlinfo = new Url();
-						urlinfo.setUrl(url);
-						urlinfo.setUrlTitle(urlTitle);
-						urlinfo.setUrlDescription(urlDescription);
-						urlinfo.setUrlImage(urlImage);
-
-						listofurlinfo.add(urlinfo);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-*/			
 			note.setTitle(updateNote.getTitle());
 			note.setDescription(updateNote.getDescription());
 			note.setModified_date(new Date());
@@ -222,7 +131,7 @@ public class NoteService implements INoteService {
 			note.setReminder(updateNote.getReminder());
 			note.setImage(updateNote.getImage());
 			note.setLabels(updateNote.getNotelabel());
-//			note.setUrls(listofurlinfo);
+			note.setUrls(listofurlinfo);
 			Note updatednote = noteDao.updateNote(note);
 
 			responseNote = new ResponseNoteDto(updatednote);
@@ -285,4 +194,74 @@ public class NoteService implements INoteService {
 		return resource;
 	}
 
+	@Override
+	public Set<Url> urlinfo(String description) {
+
+		String urlregex = "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
+		description = description.replaceAll("(\r\n | \n)", "\\s");
+		String[] descripArray = description.split("\\s+");
+
+		Url urlinfo = null;
+		Pattern p = Pattern.compile(urlregex);
+
+		Set<String> listofurl = new HashSet<String>();
+		Set<Url> listofurlinfo = new HashSet<Url>();
+
+		for (int i = 0; i < descripArray.length; i++) {
+			if (p.matcher(descripArray[i]).matches()) {
+				listofurl.add(descripArray[i]);
+			}
+		}
+
+		for (String url : listofurl) {
+		
+			if (url != null) {
+				Document doc;
+				try {
+					doc = Jsoup.connect(url).get();
+					String urlTitle = doc.title();
+
+					String urlDescription = url.split("://")[1].split("/")[0];
+					String urlImage = doc.select("meta[property=og:image]").first().attr("content");
+
+					urlinfo = new Url();
+					urlinfo.setUrl(url);
+					urlinfo.setUrlTitle(urlTitle);
+					urlinfo.setUrlDescription(urlDescription);
+					urlinfo.setUrlImage(urlImage);
+
+					listofurlinfo.add(urlinfo);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+		return listofurlinfo;
+	}
+
+	@Transactional
+	@Override
+	public ResponseNoteDto removeurlinfo(String token, UpdateNoteDto note, long id) {
+		ResponseNoteDto responseNote = null;
+
+		long userId = TokenUtil.parseJWT(token);
+
+		Note updatingnote = noteDao.getById(note.getId());
+
+		if (updatingnote.getUser().getId() == userId) {
+			Url url = noteDao.getByUrlId(id);
+
+			if (updatingnote.getUrls().contains(url)) {
+				updatingnote.getUrls().remove(url);
+				long status = noteDao.deleteUrl(url.getId());
+				if (status > 0) {
+					Note updatednote = noteDao.updateNote(updatingnote);
+					responseNote = new ResponseNoteDto(updatednote);
+				}
+			}
+		}
+		return responseNote;
+	}
 }

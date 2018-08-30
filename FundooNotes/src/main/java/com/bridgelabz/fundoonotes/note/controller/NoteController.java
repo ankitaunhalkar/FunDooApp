@@ -119,4 +119,19 @@ public class NoteController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 	}
+	
+	@RequestMapping(value="/removeurlinfo/{id}", method= RequestMethod.PUT)
+	public ResponseEntity<?> removeUrl(@RequestBody UpdateNoteDto note, @PathVariable long id,HttpServletRequest request){
+		String token = request.getHeader("Authorization");
+
+		ResponseNoteDto labelednote = noteService.removeurlinfo(token, note, id);
+		if (labelednote != null) {
+
+			return new ResponseEntity<ResponseNoteDto>(labelednote, HttpStatus.OK);
+
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
 }

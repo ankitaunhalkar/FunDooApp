@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.fundoonotes.note.model.Note;
+import com.bridgelabz.fundoonotes.note.model.Url;
 import com.bridgelabz.fundoonotes.user.model.User;
 
 @Repository
@@ -65,6 +66,28 @@ public class NoteDao implements INoteDao {
 		String queryDelete = "delete from Note where id =: noteId";
 		Query<?> query = sessionFactory.getCurrentSession().createQuery(queryDelete);
 		query.setParameter("noteId", noteId);
+		long result = query.executeUpdate();
+		return result;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Url getByUrlId(long id) {
+		Criteria crt = sessionFactory.getCurrentSession().createCriteria(Url.class);
+
+		crt.add(Restrictions.eq("id", id));
+		
+		Url url = (Url) crt.uniqueResult();
+
+		return (url != null) ? url : null;
+	}
+
+	@Override
+	public long deleteUrl(long id) {
+
+		String queryDelete = "delete from Url where id =: urlId";
+		Query<?> query = sessionFactory.getCurrentSession().createQuery(queryDelete);
+		query.setParameter("urlId", id);
 		long result = query.executeUpdate();
 		return result;
 	}
