@@ -71,6 +71,8 @@ public class Note {
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Label> notelabel;
 	
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<User> collaborators;
 	
 	public Note () {} 
 	
@@ -196,6 +198,14 @@ public class Note {
 
 	public void setUrls(Set<Url> urls) {
 		this.urls = urls;
+	}
+
+	public Set<User> getCollaborators() {
+		return collaborators;
+	}
+
+	public void setCollaborators(Set<User> collaborators) {
+		this.collaborators = collaborators;
 	}
 	
 }

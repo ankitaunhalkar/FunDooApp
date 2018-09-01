@@ -28,7 +28,7 @@ public class LabelController {
 	ILabelService labelService;
 	
 	@RequestMapping(value = "/createlabel", method = RequestMethod.POST)
-	public ResponseEntity<?> createNote(@RequestBody CreateLabelDto label, HttpServletRequest request) {
+	public ResponseEntity<?> createLabel(@RequestBody CreateLabelDto label, HttpServletRequest request) {
 
 		String token = request.getHeader("Authorization");
 

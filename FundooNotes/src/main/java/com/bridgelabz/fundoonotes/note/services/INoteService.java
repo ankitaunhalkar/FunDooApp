@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bridgelabz.fundoonotes.note.model.CollabratoredUser;
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
 import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
@@ -28,5 +29,7 @@ public interface INoteService {
 	Set<Url> urlinfo(String description);
 
 	ResponseNoteDto removeurlinfo(String token, UpdateNoteDto note, long id);
+
+	CollabratoredUser addCollaborator(long id, CollabratoredUser user, String token);
 	
 }

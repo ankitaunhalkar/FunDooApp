@@ -1,9 +1,11 @@
 package com.bridgelabz.fundoonotes.note.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.bridgelabz.fundoonotes.label.model.Label;
+import com.bridgelabz.fundoonotes.user.model.User;
 
 public class ResponseNoteDto {
 
@@ -33,6 +35,8 @@ public class ResponseNoteDto {
 
 	private Set<Url> urlInfo;
 	
+	private Set<User> collabrators = new HashSet<>();
+	
 	public ResponseNoteDto() {
 
 	}
@@ -51,6 +55,7 @@ public class ResponseNoteDto {
 		this.image = note.getImage();
 		this.notelabel = note.getLabels();
 		this.urlInfo = note.getUrls();
+		this.collabrators = note.getCollaborators();
 	}
 	
 	public long getId() {
@@ -147,11 +152,21 @@ public class ResponseNoteDto {
 	public void setNotelabel(Set<Label> notelabel) {
 		this.notelabel = notelabel;
 	}
+	
 	public Set<Url> getUrlInfo() {
 		return urlInfo;
 	}
+	
 	public void setUrlInfo(Set<Url> urlInfo) {
 		this.urlInfo = urlInfo;
 	}
-		
+	
+	public Set<User> getCollabrators() {
+		return collabrators;
+	}
+	
+	public void setCollabrators(Set<User> collabrators) {
+		this.collabrators = collabrators;
+	}
+	
 }

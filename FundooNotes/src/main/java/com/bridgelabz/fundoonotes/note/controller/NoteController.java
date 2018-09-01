@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bridgelabz.fundoonotes.note.model.CollabratoredUser;
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
 import com.bridgelabz.fundoonotes.note.model.UpdateNoteDto;
@@ -134,4 +135,15 @@ public class NoteController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
+	
+	@RequestMapping(value="/addcollaborator/{id}", method = RequestMethod.POST)
+	public ResponseEntity<?> addcollabUSer(@RequestBody CollabratoredUser user, @PathVariable long id, HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+
+		CollabratoredUser collabratoredUser = noteService.addCollaborator(id, user, token);
+		
+		return new ResponseEntity<>(collabratoredUser, HttpStatus.ACCEPTED);
+		
+	}
+	
 }

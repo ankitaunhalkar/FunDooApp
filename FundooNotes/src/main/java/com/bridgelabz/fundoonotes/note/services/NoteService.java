@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.note.dao.INoteDao;
+import com.bridgelabz.fundoonotes.note.model.CollabratoredUser;
 import com.bridgelabz.fundoonotes.note.model.CreateNoteDto;
 import com.bridgelabz.fundoonotes.note.model.Note;
 import com.bridgelabz.fundoonotes.note.model.ResponseNoteDto;
@@ -72,6 +73,7 @@ public class NoteService implements INoteService {
 
 		if (createdNote != null) {
 
+			System.out.println("created");
 			// Adding to responseDto
 			responseNote = new ResponseNoteDto(createdNote);
 
@@ -200,7 +202,6 @@ public class NoteService implements INoteService {
 		String urlregex = "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
 		description = description.replaceAll("(\r\n | \n)", "\\s");
 		String[] descripArray = description.split("\\s+");
-
 		Url urlinfo = null;
 		Pattern p = Pattern.compile(urlregex);
 
@@ -209,21 +210,20 @@ public class NoteService implements INoteService {
 
 		for (int i = 0; i < descripArray.length; i++) {
 			if (p.matcher(descripArray[i]).matches()) {
+				System.out.println(descripArray[i]);
 				listofurl.add(descripArray[i]);
 			}
 		}
 
 		for (String url : listofurl) {
-		
+
 			if (url != null) {
 				Document doc;
 				try {
 					doc = Jsoup.connect(url).get();
 					String urlTitle = doc.title();
-
 					String urlDescription = url.split("://")[1].split("/")[0];
 					String urlImage = doc.select("meta[property=og:image]").first().attr("content");
-
 					urlinfo = new Url();
 					urlinfo.setUrl(url);
 					urlinfo.setUrlTitle(urlTitle);
@@ -264,4 +264,39 @@ public class NoteService implements INoteService {
 		}
 		return responseNote;
 	}
+
+	@Override
+	@Transactional
+	public CollabratoredUser addCollaborator(long noteid, CollabratoredUser user, String token) {
+
+		long userId = TokenUtil.parseJWT(token);
+
+		Note note = noteDao.getById(noteid);
+
+		CollabratoredUser collaborateuser = null;
+
+		if (note.getUser().getId() == userId) {
+
+			User collabuser = userDao.getByEmail(user.getEmail());
+			
+			collaborateuser = new CollabratoredUser();
+
+			collaborateuser.setEmail(collabuser.getEmail());
+			collaborateuser.setImage(collabuser.getProfile());
+			collaborateuser.setUsername(collabuser.getName());
+
+			Set<User> collabartedusers = note.getCollaborators();
+
+			collabartedusers.add(collabuser);
+
+			note.setCollaborators(collabartedusers);
+
+			noteDao.saveNote(note);	
+
+		}
+		
+		return collaborateuser;
+
+	}
+
 }
